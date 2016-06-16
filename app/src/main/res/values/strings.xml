@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TP</string>
+    <string name="leer">LEER</string>
+    <string name="rssUrl">Ingrese la URL del RSS</string>
+</resources>
