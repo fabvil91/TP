@@ -38,7 +38,7 @@ public class ListarNoticias extends AppCompatActivity implements ClickNoticia,Ha
 
         listarNoticiasViewManager.setListenerLeerRSS(listarNoticiasControlador);
 
-        adapterNoticias = new AdapterNoticias(noticias, this,this);
+        adapterNoticias = new AdapterNoticias(noticias, this);
 
         RecyclerView recyclerView = listarNoticiasViewManager.getRecyclerView();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

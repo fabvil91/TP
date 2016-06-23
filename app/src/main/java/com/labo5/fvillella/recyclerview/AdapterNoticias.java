@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.labo5.fvillella.activities.ListarNoticias;
 import com.labo5.fvillella.activities.R;
 import com.labo5.fvillella.entidades.Noticia;
 import com.labo5.fvillella.listeners.ClickNoticia;
@@ -21,10 +22,10 @@ public class AdapterNoticias extends RecyclerView.Adapter<ViewHolderNoticias> {
     ClickNoticia clickNoticia;
     Context contexto;
 
-    public AdapterNoticias(List<Noticia> noticias, ClickNoticia clickNoticia,Context contexto) {
+    public AdapterNoticias(List<Noticia> noticias, ListarNoticias listarNoticias) {
         this.noticias = noticias;
-        this.clickNoticia = clickNoticia;
-        this.contexto = contexto;
+        this.clickNoticia = listarNoticias;
+        this.contexto = listarNoticias;
     }
 
     @Override
