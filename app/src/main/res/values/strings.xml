@@ -2,4 +2,7 @@
     <string name="app_name">TP</string>
     <string name="leer">LEER</string>
     <string name="rssUrl">Ingrese la URL del RSS</string>
+    <string name="error">Error</string>
+    <string name="msgError">Por favor, ingrese una URL</string>
+    <string name="aceptar">Aceptar</string>
 </resources>

@@ -48,35 +48,6 @@ public class HttpManager {
 			throw new IOException();
 	}
 
-	public String getStrDataByPOST(Uri.Builder postParams) throws IOException
-	{
-		byte[] bytes = getBytesDataByPOST(postParams);
-		return new String(bytes,"UTF-8");
-	}
-	public byte[] getBytesDataByPOST(Uri.Builder postParams) throws IOException
-	{
-		conn.setRequestMethod("POST");
-		conn.setDoOutput(true);
-
-		String query = postParams.build().getEncodedQuery();
-
-		OutputStream os = conn.getOutputStream();
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-		writer.write(query);
-		writer.flush();
-		writer.close();
-		os.close();
-
-		int response = conn.getResponseCode();
-		Log.d("http","Response code:"+response);
-		if(response==200) {
-			InputStream is = conn.getInputStream();
-			return readFully(is);
-		}
-		else
-			throw new IOException();
-	}
-
 	private byte[] readFully(InputStream inputStream) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];

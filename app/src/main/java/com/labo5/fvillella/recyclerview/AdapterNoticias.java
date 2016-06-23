@@ -42,8 +42,7 @@ public class AdapterNoticias extends RecyclerView.Adapter<ViewHolderNoticias> {
         holder.tvDescripcion.setText(p.getDescripcion());
         holder.tvTitulo.setText(p.getTitulo());
         if(p.getImagenLink() != null){
-            Picasso.with(contexto).load(p.getImagenLink()).resize(300, 300).into(holder.imgNoticia);
-         //   holder.imgNoticia.setImageBitmap(p.getImagen());
+            Picasso.with(contexto).load(p.getImagenLink()).placeholder(R.drawable.rss).resize(300, 300).into(holder.imgNoticia);
         }
         holder.setPosicion(position);
     }

@@ -13,7 +13,6 @@ public class Noticia {
     private String link;
     private String fecha;
     private String imagenLink;
-    private Bitmap imagen;
 
     public Noticia(String titulo, String descripcion, String link, String fecha, String imagenLink) {
         this.titulo = titulo;
@@ -67,23 +66,14 @@ public class Noticia {
         this.imagenLink = imagenLink;
     }
 
-    public Bitmap getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(Bitmap imagen) {
-        this.imagen = imagen;
-    }
-
     @Override
     public String toString() {
         return "Noticia{" +
                 "titulo='" + titulo + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 ", link='" + link + '\'' +
-                ", fecha=" + fecha +
+                ", fecha='" + fecha + '\'' +
                 ", imagenLink='" + imagenLink + '\'' +
-                ", imagen=" + imagen +
                 '}';
     }
 }

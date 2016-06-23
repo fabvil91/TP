@@ -1,5 +1,6 @@
 package com.labo5.fvillella.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -12,16 +13,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.labo5.fvillella.controlador.ListarNoticiasControlador;
 import com.labo5.fvillella.entidades.Noticia;
 import com.labo5.fvillella.listeners.ClickNoticia;
 import com.labo5.fvillella.procesos.HiloNoticias;
 import com.labo5.fvillella.recyclerview.AdapterNoticias;
+import com.labo5.fvillella.vista.ListarNoticiasViewManager;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class ListarNoticias extends AppCompatActivity implements ClickNoticia, View.OnClickListener,Handler.Callback{
+public class ListarNoticias extends AppCompatActivity implements ClickNoticia,Handler.Callback{
     List<Noticia> noticias = new ArrayList<Noticia>();
     AdapterNoticias adapterNoticias;
     Handler handler;
@@ -31,10 +33,14 @@ public class ListarNoticias extends AppCompatActivity implements ClickNoticia, V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listar_noticias);
 
-        this.findViewById(R.id.btnLeer).setOnClickListener(this);
+        ListarNoticiasViewManager listarNoticiasViewManager = new ListarNoticiasViewManager(this);
+        ListarNoticiasControlador listarNoticiasControlador = new ListarNoticiasControlador(listarNoticiasViewManager);
+
+        listarNoticiasViewManager.setListenerLeerRSS(listarNoticiasControlador);
 
         adapterNoticias = new AdapterNoticias(noticias, this,this);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv);
+
+        RecyclerView recyclerView = listarNoticiasViewManager.getRecyclerView();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(adapterNoticias);
         recyclerView.setLayoutManager(layoutManager);
@@ -45,36 +51,27 @@ public class ListarNoticias extends AppCompatActivity implements ClickNoticia, V
     @Override
     public void hacerClick(int position) {
         Log.d("Posicion:" , String.valueOf(position));
-    }
 
-    @Override
-    public void onClick(View v) {
-        EditText txtUrl = (EditText)this.findViewById(R.id.etUrl);
-        if(txtUrl.getText() != null && txtUrl.getText().toString() != null && !txtUrl.getText().toString().isEmpty()){
-            HiloNoticias hiloNoticias = new HiloNoticias("http://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss", handler, false,0);
-            Thread tHilo = new Thread(hiloNoticias);
-            tHilo.start();
-        }else{
-            Log.d("Error","Escriba algo");
-        }
+        /* Lanzamos la activity MostrarNoticia para navegar por el item */
+        Intent i = new Intent(this,MostrarNoticia.class);
+        i.putExtra("url",this.noticias.get(position).getLink());
 
+        startActivity(i);
     }
 
     @Override
     public boolean handleMessage(Message msg) {
+        /* Refrescamos el Adapter con las noticias parseadas */
         if (msg.arg1 == 1) {
             noticias.clear();
             noticias.addAll((List<Noticia>) msg.obj);
-            Log.d("HandlerMessaggee", noticias.size() + "");
+            Log.d("HandlerMessage", noticias.size() + "");
             adapterNoticias.notifyDataSetChanged();
-        }  else if (msg.arg1 == 2) {
-            byte[] array = (byte[])msg.obj;
-            if(array != null && array.length > 0){
-                Bitmap bmp = BitmapFactory.decodeByteArray(array, 0, array.length);
-                (noticias.get(msg.arg2)).setImagen(bmp);
-                adapterNoticias.notifyDataSetChanged();
-            }
-    }
+        }
         return false;
+    }
+
+    public Handler getHandler(){
+        return this.handler;
     }
 }
